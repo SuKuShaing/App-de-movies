@@ -1,4 +1,4 @@
-import MainSlideShow from "@/presentation/components/MainSlideShow";
+import MainSlideShow from "@/presentation/components/movies/MainSlideShow";
 import { useMovies } from "@/presentation/hooks/useMovies";
 import { ActivityIndicator, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,7 +19,7 @@ const HomeScreen = () => {
 
 	return (
 		<View style={{ paddingTop: safeArea.top }} className="mt-2">
-			<Text className="text-3xl font-bold px-4 mb-2">HomeScreen</Text>
+			<Text className="text-3xl font-bold px-4 mb-2">Movies App</Text>
 			<MainSlideShow movies={nowPlayingQuery.data || []} />
 		</View>
 	);
