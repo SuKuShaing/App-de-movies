@@ -9,8 +9,8 @@ interface Props {
 
 const MovieHorizontalList = ({ movies, title }: Props) => {
 	return (
-		<View>
-            {title && <Text className="text-3xl font-bold px-4">{title}</Text>}
+		<View className="mb-5">
+            {title && <Text className="text-3xl font-bold px-4 mb-2">{title}</Text>}
 
 			<FlatList
 				horizontal
