@@ -35,8 +35,9 @@ const HomeScreen = () => {
 
 				{/* Películas top rated */}
 				<MovieHorizontalList
-					movies={topRatedQuery.data ?? []}
+					movies={topRatedQuery.data?.pages.flat() ?? []} // aplanamos la lista de películas
 					title="Mejor valoradas"
+					loadNextPage={topRatedQuery.fetchNextPage} 		// función para traer más películas
 				/>
 
 				{/* Películas próximas */}

@@ -2,7 +2,7 @@ import { nowPlayingAction } from "@/core/actions/movies/now-playing.action";
 import { PopularMoviesAction } from "@/core/actions/movies/popular.action";
 import { TopRatedMoviesAction } from "@/core/actions/movies/top-rated.action";
 import { UpcomingMoviesAction } from "@/core/actions/movies/upcoming.action";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 
 
 /**
@@ -13,11 +13,11 @@ import { useQuery } from "@tanstack/react-query";
  */
 export const useMovies = () => {
 	// Queries
-	const nowPlayingQuery = useQuery({
+	const nowPlayingQuery = useQuery({			// para manejar una solicitud
 		queryKey: ["movies", "now-playing"],    // key para identificar la query
 		queryFn: nowPlayingAction,              // función que se ejecuta para obtener los datos
 		staleTime: 1000 * 60 * 60 * 24,         // mantiene la data por 24 hours
-	});
+	});											// retorna un array de Movie[]
 
 	const popularQuery = useQuery({
 		queryKey: ["movies", "popular"],
@@ -25,11 +25,16 @@ export const useMovies = () => {
 		staleTime: 1000 * 60 * 60 * 24,
 	});
 	
-	const topRatedQuery = useQuery({
+	const topRatedQuery = useInfiniteQuery({	// para manejar scroll infinito, puesto que tiene paginación
+		initialPageParam: 1,					// para empezar en la página 1, lo solicita useInfiniteQuery
 		queryKey: ["movies", "top-rated"],
-		queryFn: TopRatedMoviesAction,
+		queryFn: ({pageParam}) => {								// para manejar la paginación, se usa pageParam, que es el número de página que se está cargando, que la primera es initialPageParam
+			console.log({pageParam}); 							// para ver el número de página que se está cargando
+			return TopRatedMoviesAction({ page: pageParam});	// Hace la petición
+		},
+		getNextPageParam: (lastPage, pages) => pages.length + 1,	// para obtener la siguiente página, lastPage es la última página solicitada, pages es el array de páginas solicitadas Movie[][]
 		staleTime: 1000 * 60 * 60 * 24,
-	});
+	});													// retorna dentro de data un objeto con pageParams y pages, que es un array de Movie[], es decir un movie[][]
 
 	const upcomingQuery = useQuery({
 		queryKey: ["movies", "upcoming"],

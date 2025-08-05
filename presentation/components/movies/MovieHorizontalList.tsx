@@ -1,5 +1,5 @@
 import { Movie } from "@/infrastructure/interfaces/movie.intreface";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Text, View } from "react-native";
 import MoviePoster from "./MoviePoster";
 
@@ -13,6 +13,12 @@ interface Props {
 const MovieHorizontalList = ({ movies, title, className, loadNextPage }: Props) => {
 
 	const isLoading = useRef(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			isLoading.current = false;
+		}, 200);
+	}, [movies]);
 
 	const onScroll = (evento: NativeSyntheticEvent<NativeScrollEvent>) => {
 		if (isLoading.current) return;  // si ya está cargando, no se hace nada
@@ -45,14 +51,16 @@ const MovieHorizontalList = ({ movies, title, className, loadNextPage }: Props) 
 			<FlatList
 				horizontal
 				data={movies}
-				keyExtractor={(item) => item.id.toString()}
+				keyExtractor={(item, index) => `${item.id}-${index}`}
 				renderItem={({ item }) => <MoviePoster id={item.id} poster={item.poster} smallPoster />}
                 showsHorizontalScrollIndicator={false}
 				onScroll={onScroll}
-			/>
+				/>
 		</View>
 	);
 };
 
 export default MovieHorizontalList;
-{/* showsHorizontalScrollIndicator: false, para que no se muestre el scroll horizontal */}
+
+// keyExtractor={(item, index) => `${item.id}-${index}`} // en caso de que vengan dos películas con el mismo id, le concatena el index para que el keyExtractor no se repita; sí se repite, se cae la app
+// showsHorizontalScrollIndicator: false, para que no se muestre el scroll horizontal
