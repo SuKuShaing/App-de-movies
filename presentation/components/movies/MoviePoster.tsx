@@ -13,7 +13,6 @@ const MoviePoster = ({ id, poster, smallPoster = false, className }: Props) => {
 		<Pressable
 			className={`active:opacity-85 px-2 ${className}`}
 			onPress={() => {
-				console.log("id de la película:", { id });
 				router.push(`/movie/${id}`);
 			}}
 		>
