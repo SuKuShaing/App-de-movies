@@ -55,7 +55,7 @@ const MovieHorizontalList = ({ movies, title, className, loadNextPage }: Props) 
 				renderItem={({ item }) => <MoviePoster id={item.id} poster={item.poster} smallPoster />}
                 showsHorizontalScrollIndicator={false}
 				onScroll={onScroll}
-				/>
+			/>
 		</View>
 	);
 };

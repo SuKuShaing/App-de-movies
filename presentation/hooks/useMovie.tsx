@@ -1,3 +1,4 @@
+import { getActorsByIdMovieAction } from "@/core/actions/movie/get-actors-by-id-movie.action";
 import { getMovieByIdAction } from "@/core/actions/movie/get-movie-by-id.action";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,7 +9,14 @@ export const useMovie = (id: number) => {
         staleTime: 1000 * 60 * 60 * 24,         // mantiene la data por 24 hours
     });
     
+    const castQuery = useQuery({
+        queryKey: ['cast', id],
+        queryFn: () => getActorsByIdMovieAction(id),
+        staleTime: 1000 * 60 * 60 * 24,
+    });
+
     return {
-        movieQuery
+        movieQuery,
+        castQuery
     };
 };

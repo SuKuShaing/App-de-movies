@@ -3,6 +3,8 @@
  * para que se pueda usar en la aplicación
 */ 
 
+import { ActorsDBResponseInterface } from "../interfaces/actorsdb-response"
+import { CastActor } from "../interfaces/castActor.interface"
 import { CompleteMovie, Movie } from "../interfaces/movie.intreface"
 import { MovieBDMovieResponse } from "../interfaces/moviedb-movie.response"
 import { Result } from "../interfaces/moviedb-response"
@@ -38,5 +40,14 @@ export class MovieMapper {
             originalTitle: movie.original_title,
             productionCompanies: movie.production_companies.map(company => company.name),
         }
+    }
+
+    static fromActorsDBToCast = (cast: ActorsDBResponseInterface): CastActor[] => {
+        return cast.cast.map(actor => ({
+            id: actor.id,
+            name: actor.name,
+            character: actor.character ?? 'No tiene personaje',
+            avatar: actor.profile_path ? `https://image.tmdb.org/t/p/w500${actor.profile_path}` : 'https://i.stack.imgur.com/l60Hf.png',
+        }));
     }
 }
