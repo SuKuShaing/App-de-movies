@@ -20,7 +20,7 @@ const MovieDescription = ({ movie }: Props) => {
         
             <Text className="font-bold mt-2 text-2xl mx-5">{Formatter.currency(movie.budget)}</Text>
 
-            <Text className="font-bold mt-5 mx-5">Reparto</Text>
+            <Text className="font-bold mt-5 mx-5 mb-3">Reparto</Text>
             <Reparto idMovie={movie.id} />
 
 		</View>
